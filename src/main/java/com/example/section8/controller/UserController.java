@@ -59,18 +59,18 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?>deleteUsers(@PathVariable("id")Long id){
         service.deleteUser(id);
-        return new ResponseEntity<>("Xoa user thanh cong", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted user succesfully", HttpStatus.OK);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails>handleResourceNotFoundException(ResourceNotFoundException exception,
-                                                                       WebRequest webRequest){
-        ErrorDetails errorDetails = new ErrorDetails(
-                LocalDateTime.now(),
-                exception.getMessage(),
-                webRequest.getDescription(false),
-                "USER NOT FOUND"
-        );
-        return new ResponseEntity<>()
-    }
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public ResponseEntity<ErrorDetails>handleResourceNotFoundException(ResourceNotFoundException exception,
+//                                                                       WebRequest webRequest){
+//        ErrorDetails errorDetails = new ErrorDetails(
+//                LocalDateTime.now(),
+//                exception.getMessage(),
+//                webRequest.getDescription(false),
+//                "USER NOT FOUND"
+//        );
+//        return new ResponseEntity<>()
+//    }
 }
