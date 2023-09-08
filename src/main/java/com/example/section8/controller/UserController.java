@@ -38,9 +38,6 @@ public class UserController {
     @GetMapping("/get/{id}")
     public ResponseEntity<?>getUserById(@PathVariable("id") Long id){
         UsersDto user = service.getById(id);
-        if(user.equals(null)){
-            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -62,15 +59,15 @@ public class UserController {
         return new ResponseEntity<>("Deleted user succesfully", HttpStatus.OK);
     }
 
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorDetails>handleResourceNotFoundException(ResourceNotFoundException exception,
-//                                                                       WebRequest webRequest){
-//        ErrorDetails errorDetails = new ErrorDetails(
-//                LocalDateTime.now(),
-//                exception.getMessage(),
-//                webRequest.getDescription(false),
-//                "USER NOT FOUND"
-//        );
-//        return new ResponseEntity<>()
-//    }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails>handleResourceNotFoundException(ResourceNotFoundException exception,
+                                                                       WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "USER NOT FOUND"
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
 }
