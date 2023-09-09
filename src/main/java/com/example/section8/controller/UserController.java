@@ -3,9 +3,11 @@ package com.example.section8.controller;
 import com.example.section8.dto.UserMapper;
 import com.example.section8.dto.UsersDto;
 import com.example.section8.entity.Users;
+import com.example.section8.exception.EmailAlreadyExistException;
 import com.example.section8.exception.ErrorDetails;
 import com.example.section8.exception.ResourceNotFoundException;
 import com.example.section8.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
-    @Autowired
+
     private UserService service;
 
     @PostMapping("/create")
@@ -69,5 +72,17 @@ public class UserController {
                 "USER NOT FOUND"
         );
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<ErrorDetails>handleEmailAlreadyExistException(EmailAlreadyExistException exception,
+                                                                       WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "USER EMAIL ALREADY EXIST"
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }

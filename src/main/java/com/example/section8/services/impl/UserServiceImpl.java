@@ -4,6 +4,7 @@ import com.example.section8.dto.AutoUserMapper;
 import com.example.section8.dto.UserMapper;
 import com.example.section8.dto.UsersDto;
 import com.example.section8.entity.Users;
+import com.example.section8.exception.EmailAlreadyExistException;
 import com.example.section8.exception.ResourceNotFoundException;
 import com.example.section8.repository.UsersRepository;
 import com.example.section8.services.UserService;
@@ -28,6 +29,10 @@ public class UserServiceImpl implements UserService {
     public UsersDto createUser(UsersDto users) {
         //Transfer from Users to UserDto
 //        Users users1 = modelMapper.map(users, Users.class);
+        Optional<Users>optionalUsers = repository.findByEmail(users.getEmail());
+        if(optionalUsers.isPresent()){
+            throw new EmailAlreadyExistException("Email already exist");
+        }
         Users users1 = AutoUserMapper.MAPPER.mapToUserJpa(users);
         Users savedUsers = repository.save(users1);
         UsersDto usersDto = AutoUserMapper.MAPPER.mapToUserDto(savedUsers);

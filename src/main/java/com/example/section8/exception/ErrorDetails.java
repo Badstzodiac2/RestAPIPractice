@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorDetails {
+    //contain error message when an exception is caught
+
     private LocalDateTime timestamp;
     private String message;
     private String path;
