@@ -10,7 +10,6 @@ import com.example.section8.repository.UsersRepository;
 import com.example.section8.services.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +34,7 @@ public class UserServiceImpl implements UserService {
         }
         Users users1 = AutoUserMapper.MAPPER.mapToUserJpa(users);
         Users savedUsers = repository.save(users1);
-        UsersDto usersDto = AutoUserMapper.MAPPER.mapToUserDto(savedUsers);
-        return usersDto;
+        return AutoUserMapper.MAPPER.mapToUserDto(savedUsers);
     }
 
     @Override
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UsersDto> getAllUser() {
         List<Users>list = repository.findAll();
-        return list.stream().map(users -> AutoUserMapper.MAPPER.mapToUserDto(users))
+        return list.stream().map(AutoUserMapper.MAPPER::mapToUserDto)
                 .collect(Collectors.toList());
     }
 
