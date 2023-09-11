@@ -50,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
-                                                                          WebRequest webRequest){
+                                                              WebRequest webRequest){
 
         ErrorDetails errorDetails = new ErrorDetails(
                 LocalDateTime.now(),
