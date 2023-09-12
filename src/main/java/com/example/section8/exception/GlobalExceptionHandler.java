@@ -42,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 exception.getMessage(),
                 webRequest.getDescription(false),
-                "USER_EMAIL_ALREADY_EXISTS"
+                "EMAIL_USER_ALREADY_EXIST"
         );
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
@@ -67,9 +67,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String,String> errors = new HashMap<>();
         List<ObjectError>errorList = ex.getBindingResult().getAllErrors();
-        errorList.forEach((error)->{
+        errorList.forEach((error) ->{
             String fieldName = ((FieldError)error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
